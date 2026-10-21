@@ -1,0 +1,97 @@
+x-airflow-common: &airflow-common
+  build: .
+  image: sarisari-airflow:local
+  environment: &airflow-env
+    AIRFLOW__CORE__EXECUTOR: LocalExecutor
+    AIRFLOW__CORE__LOAD_EXAMPLES: 'False'
+    AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:${AIRFLOW_DB_PASSWORD}@airflow-db:5432/airflow
+    AIRFLOW__WEBSERVER__SECRET_KEY: ${AIRFLOW_SECRET_KEY}
+    DW_HOST: warehouse
+    DW_PORT: '5432'
+    DW_NAME: sarisari
+    DW_USER: warehouse
+    DW_PASSWORD: ${WAREHOUSE_PASSWORD}
+    PYTHONPATH: /opt/airflow/dags
+  volumes:
+    - ./dags:/opt/airflow/dags:ro
+    - ./data/landing:/opt/airflow/data/landing:ro
+    - ./datalake:/opt/airflow/datalake
+    - ./logs:/opt/airflow/logs
+  depends_on:
+    airflow-init:
+      condition: service_completed_successfully
+  restart: unless-stopped
+
+services:
+  airflow-db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: airflow
+      POSTGRES_PASSWORD: ${AIRFLOW_DB_PASSWORD}
+      POSTGRES_DB: airflow
+    volumes:
+      - airflow-db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U airflow -d airflow']
+      interval: 5s
+      retries: 20
+    restart: unless-stopped
+
+  warehouse:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: warehouse
+      POSTGRES_PASSWORD: ${WAREHOUSE_PASSWORD}
+      POSTGRES_DB: sarisari
+    ports:
+      - '127.0.0.1:5435:5432'
+    volumes:
+      - warehouse-data:/var/lib/postgresql/data
+      - ./sql/01_schema.sql:/docker-entrypoint-initdb.d/01_schema.sql:ro
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U warehouse -d sarisari']
+      interval: 5s
+      retries: 20
+    restart: unless-stopped
+
+  airflow-init:
+    build: .
+    image: sarisari-airflow:local
+    environment:
+      <<: *airflow-env
+      ADMIN_USER: ${ADMIN_USER}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD}
+    depends_on:
+      airflow-db:
+        condition: service_healthy
+      warehouse:
+        condition: service_healthy
+    command: >-
+      bash -ec 'airflow db migrate;
+      airflow users create --username "$${ADMIN_USER}" --password "$${ADMIN_PASSWORD}"
+      --firstname Lab --lastname Admin --role Admin --email lab@example.local ||
+      airflow users list | grep -q "$${ADMIN_USER}"'
+    restart: 'no'
+
+  airflow-webserver:
+    <<: *airflow-common
+    command: airflow webserver
+    ports:
+      - '127.0.0.1:${AIRFLOW_PORT:-8080}:8080'
+    healthcheck:
+      test: ['CMD', 'curl', '--fail', 'http://localhost:8080/health']
+      interval: 15s
+      retries: 20
+      start_period: 45s
+
+  airflow-scheduler:
+    <<: *airflow-common
+    command: airflow scheduler
+
+  airflow-triggerer:
+    <<: *airflow-common
+    command: airflow triggerer
+
+volumes:
+  airflow-db-data:
+  warehouse-data:

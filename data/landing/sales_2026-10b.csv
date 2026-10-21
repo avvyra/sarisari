@@ -1,0 +1,10 @@
+sale_id,sale_date,store_name,barangay,product_name,category,quantity,unit_price
+S016,2026-10-13,Tindahan ni Alea,Barangay San Isidro,Pandesal,Food,4,5.00
+S017,2026-10-13,Tindahan ni Alea,Barangay San Isidro,Coconut Water,Drinks,2,35.00
+S018,2026-10-14,Tindahan ni Alea,Barangay San Isidro,Rice 1kg,Groceries,3,51.00
+S019,2026-10-14,Tindahan ni Alea,Barangay San Isidro,Banana Cue,Food,2,20.00
+S020,2026-10-15,Tindahan ni Alea,Barangay San Isidro,Laundry Soap,Personal Care,1,45.00
+S021,2026-10-15,Tindahan ni Alea,Barangay San Isidro,Calamansi Juice,Drinks,3,18.00
+S022,2026-10-16,Tindahan ni Alea,Barangay San Isidro,Coconut Water,Drinks,2,
+S018,2026-10-14,Tindahan ni Alea,Barangay San Isidro,Rice 1kg,Groceries,3,51.00
+S023,2026-10-17,Tindahan ni Alea,Barangay San Isidro,Premium Rice,Groceries,1,120.00

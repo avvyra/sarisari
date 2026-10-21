@@ -1,0 +1,17 @@
+sale_id,sale_date,store_name,barangay,product_name,category,quantity,unit_price
+S001,2026-10-01,Aling Nena Store,Barangay Maligaya,Rice 1kg,Groceries,2,52.00
+S002,2026-10-01,Aling Nena Store,Barangay Maligaya,Canned Sardines,Groceries,3,28.00
+S003,2026-10-02,Mang Ben Sari-Sari,Barangay Pag-asa,Instant Noodles,Groceries,5,15.00
+S004,2026-10-03,Kuya Jo Mini Mart,Barangay Masagana,Bottled Water,Drinks,4,20.00
+S005,2026-10-04,Aling Nena Store,Barangay Maligaya,Rice 1kg,Groceries,3,52.00
+S006,2026-10-04,Mang Ben Sari-Sari,Barangay Pag-asa,Rice 1kg,Groceries,1,54.00
+S007,2026-10-05,Kuya Jo Mini Mart,Barangay Masagana,Soap Bar,Personal Care,2,35.00
+S008,2026-10-06,Mang Ben Sari-Sari,Barangay Pag-asa,Canned Sardines,Groceries,2,29.00
+S009,2026-10-07,Aling Nena Store,Barangay Maligaya,Instant Noodles,Groceries,4,15.00
+S010,2026-10-08,Kuya Jo Mini Mart,Barangay Masagana,Coffee Sachet,Drinks,6,12.00
+S011,2026-10-09,Mang Ben Sari-Sari,Barangay Pag-asa,Bottled Water,Drinks,3,22.00
+S012,2026-10-10,Kuya Jo Mini Mart,Barangay Masagana,Rice 1kg,Groceries,2,53.00
+S013,2026-10-11,Aling Nena Store,Barangay Maligaya,Rice 1kg,Groceries,1,52.00
+S014,2026-10-12,Mang Ben Sari-Sari,Barangay Pag-asa,Coffee Sachet,Drinks,2,
+S005,2026-10-04,Aling Nena Store,Barangay Maligaya,Rice 1kg,Groceries,3,52.00
+S015,2026-10-12,Kuya Jo Mini Mart,Barangay Masagana,Soap Bar,Personal Care,-1,35.00
